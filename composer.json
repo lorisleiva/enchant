@@ -1,0 +1,29 @@
+{
+    "name": "lorisleiva/enchant",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Loris Leiva",
+            "email": "loris.leiva@gmail.com",
+            "homepage": "https://lorisleiva.com"
+        }
+    ],
+    "require": {
+        "lorisleiva/laravel-intelligence": "^1.0"
+    },
+    "autoload": {
+       "psr-4": {
+            "Lorisleiva\\Enchant\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lorisleiva\\Enchant\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
