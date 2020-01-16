@@ -1,6 +1,6 @@
 # Enchant
 
-🧙‍♂️ Auto-generated Laravel documentation
+🧙‍♂️ Auto-generated Laravel documentations
 
 ## Installation
 
