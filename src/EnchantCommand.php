@@ -4,6 +4,7 @@ namespace Lorisleiva\Enchant;
 
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
+use GuzzleHttp\Exception\ClientException;
 use Lorisleiva\LaravelIntelligence\IntelligenceCenter;
 
 class EnchantCommand extends Command
@@ -31,16 +32,23 @@ class EnchantCommand extends Command
 
         $knowledge = $intelligenceCenter->learn()->export(true);
 
-        $response = $http->post("/api/$book/chapters", [
-            'json' => compact('version', 'knowledge'),
-        ]);
+        try {
+            $response = $http->post("/api/$book/chapters", [
+                'json' => compact('key', 'version', 'knowledge'),
+            ]);
+        } catch (ClientException $e) {
+            if ($e->getResponse()->getStatusCode() === 404) {
+                $this->error("Book \"{$book}\" with key \"{$key}\" not found.");
+                exit(1);
+            }
+            throw $e;
+        }
 
-        $chapter = json_decode($response->getBody()->getContents(), true);
-        $versionUrl = $chapter['book']['url'] . ($version ? "/$version" : '');
-        $chapterUrl = $chapter['url'];
+        $chapter = json_decode($response->getBody()->getContents());
+        $versionUrl = $chapter->book->url . ($version ? "/$version" : '');
 
         $this->info("✔ A new chapter was created for \"{$book}\"");
         $this->line("  <comment>=> Version URL:</comment> {$versionUrl}");
-        $this->line("  <comment>=> Chapter URL:</comment> {$chapterUrl}");
+        $this->line("  <comment>=> Chapter URL:</comment> {$chapter->url}");
     }
 }
