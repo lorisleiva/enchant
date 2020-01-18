@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "lorisleiva/laravel-intelligence": "1.0.1",
+        "lorisleiva/laravel-intelligence": "1.0.2",
         "guzzlehttp/guzzle": "^6.5"
     },
     "autoload": {
