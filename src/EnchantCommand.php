@@ -14,6 +14,7 @@ class EnchantCommand extends Command
 
     public function handle(IntelligenceCenter $intelligenceCenter)
     {
+        $http = new Client(['base_uri' => config('enchant.url')]);
         $book = config('enchant.book');
         $key = config('enchant.key');
         $version = $this->argument('version');
@@ -22,11 +23,6 @@ class EnchantCommand extends Command
             $this->error('Please provide the following environemnt variables: ENCHANT_BOOK and ENCHANT_KEY.');
             exit(1);
         }
-
-        $http = new Client([
-            'base_uri' => config('enchant.url'),
-            'timeout'  => 10.0,
-        ]);
 
         $this->line("➤ Creating a new chapter...");
 
